@@ -41,8 +41,8 @@ uint_pair test_with_elements(int n) {
 
 template <class Heap>
 void run_experiment(std::ostream& output, const std::string& heap_name) {
-	for (int i = 0; i < 20; i++) {
-		int n = std::pow(2, i);
+	for (int i = 0; i < 1000; i++) {
+		int n = 100 * (i + 1);
 		
 		for (int j = 0; j < 30; j++) {
 			uint_pair result = test_with_elements<Heap>(n);
