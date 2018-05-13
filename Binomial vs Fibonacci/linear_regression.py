@@ -23,13 +23,24 @@ def process(dataset):
     return np.array(result)
 
 def linear_regression(xs,ys,label):
-    m = ((mean(xs)* mean(ys)) - mean(xs*ys)) / ( (mean(xs)**2) - (mean(xs**2)) )
-    b = mean(ys) - m*mean(xs)
-    regression_line = [(m*x)+b for x in xs]
-    plt.scatter(xs,ys,s=1, color='r')
+    # will be a log-log regression line.
+    lxs = np.log(xs)
+    lys = np.log(ys)
+
+    m = ((mean(lxs)* mean(lys)) - mean(lxs*lys)) / ( (mean(lxs)**2) - (mean(lxs**2)) )
+    b = mean(lys) - m*mean(lxs)
+		
+    print("Slope:", m, "; Intercept: ", b);
+		
+    # line is given by x^slope * logbase^intercept
+    # https://en.wikipedia.org/wiki/Log%E2%80%93log_plot
+    regression_line = [np.power(x, m) * np.exp(b) for x in xs]
+		
+    plt.scatter(xs, ys, s=1, color='r')
     legenda = mlines.Line2D([], [], color='blue',markersize=15, label=label)
     plt.legend(handles=[legenda])
     plt.plot(xs, regression_line)
+		
     plt.show()
 
 with open("experiments.csv", "r") as output:
